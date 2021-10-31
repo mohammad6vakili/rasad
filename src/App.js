@@ -1,11 +1,12 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import "./App.css";
-
+import Login from './Components/Auth/Login';
 
 const App=()=>{
+
     return(
         <div>
-            app
+            <Login/>
         </div>
     )
 }
