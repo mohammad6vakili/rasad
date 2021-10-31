@@ -2,9 +2,35 @@
   font-family: iranSans;
   src: url(/src/Assets/font/IRANSansWeb_Medium.ttf);
 }
+@font-face {
+  font-family: iranSansLight;
+  src: url(/src/Assets/font/IRANSansWeb.ttf);
+}
 *{
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   font-family: iranSans;
+}
+.app{
+  width: 100%;
+  height: 100vh;
+  display: flex;
+}
+.pwa{
+  display: none;
+  width: 100%;
+  height: 100vh;
+  z-index: 0;
+  background-image: url(./Assets/images/background.png);
+  background-size: contain;
+  overflow-x: hidden;
+}
+@media only screen and (max-width:800px){
+  .pwa{
+    display: flex;
+  }
+  .app{
+    display: none !important;
+  }
 }
