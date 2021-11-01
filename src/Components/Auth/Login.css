@@ -24,4 +24,39 @@
     width: 80% !important;
     height: 50px !important;
     margin-top: 10px;
+    position: relative;
+}
+.btn-loading{
+    background-color: red !important;
+}
+.countdown{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 15px;
+}
+.countdown>span:nth-child(2){
+    position:absolute;
+    top: 30%;
+    font-size: 20px;
+}
+.login-modal-content{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding-top: 10px;
+}
+@media only screen and (max-height:700px){
+    .login>form{
+        margin-top:70px !important;
+    }
+}
+@media only screen and (max-height:600px){
+    .login>form{
+        margin-top: 120px !important;
+    }
 }

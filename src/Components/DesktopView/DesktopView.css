@@ -1,0 +1,16 @@
+.desktop{
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-top: 100px;
+}
+.desktop>img{
+    width: 30% !important;
+    margin-bottom: 15px;
+}
+.desktop>span{
+    font-size: 22px;
+}

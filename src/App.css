@@ -29,11 +29,16 @@
 .ant-modal-footer{
   display: flex;
   justify-content: center;
+  border-top:unset !important;
 }
 .ant-modal-wrap{
   display: flex;
   justify-content: center;
   align-items: center;
+}
+.logo-loading{
+  width: 30%;
+  margin-top: 30px;
 }
 @media only screen and (max-width:800px){
   .pwa{
