@@ -75,10 +75,15 @@ const App=()=>{
                     </div>
                 </Modal>
                 <Header/>
+                {lat===null ?
+                    <img className="logo-loading" src={logoLoading} alt="loading"/>
+                :
                     <Switch>
                         <Route path="/" exact component={Login}/>
                         <Route path="/home" component={Home}/>
                     </Switch>
+                }
+                {textErr && <span>دسترسی به موقعیت مکانی ناموفق بود لطفا دوباره وارد شوید</span>}
             </div>
         </>
     )
