@@ -1,7 +1,6 @@
 export const USER_MOBILE="USER_MOBILE";
 export const LOGIN_CODE="LOGIN_CODE";
-export const LAT="LAT";
-export const LONG="LONG";
+export const USER_STATUS="USER_STATUS";
 
 
 export const setUserMobile=(data)=>{
@@ -20,18 +19,10 @@ export const setLoginCode=(data)=>{
         }
     )
 }
-export const setLat=(data)=>{
+export const setUserStatus=(data)=>{
     return(
         {
-            type:LAT,
-            payload:data
-        }
-    )
-}
-export const setLong=(data)=>{
-    return(
-        {
-            type:LONG,
+            type:USER_STATUS,
             payload:data
         }
     )

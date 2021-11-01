@@ -4,6 +4,7 @@ import { useSelector , useDispatch } from 'react-redux';
 import { setUserMobile , setLoginCode} from '../../Store/Action';
 import axios from "axios";
 import Env from "../../Constant/Env.json";
+import { useHistory } from 'react-router';
 import { Input , Button, Modal } from 'antd';
 import Colors from "../../Helper/Colors";
 import PinInput from "react-pin-input";
@@ -14,11 +15,10 @@ import lockImage from "../../Assets/images/lock-icon.png";
 import loadingImage from "../../Assets/animations/loading.gif";
 
 const Login=()=>{
-
+    const history=useHistory();
     const dispatch=useDispatch();
     const mobile=useSelector(state=>state.Reducer.userMobile);
     const loginCode=useSelector(state=>state.Reducer.loginCode);
-
     const [loginStatus , setLoginStatus]=useState(1);
     const [loading , setLoading]=useState(false);
     const [error , setError]=useState("");
@@ -46,21 +46,26 @@ const Login=()=>{
         }
     }
 
-    const sendCode=async(e)=>{
-        e.preventDefault();
+    const sendCode=async(value)=>{
+        setLoading(true);
         try{
-            const response = await axios.post(Env.baseUrl + "/token",`client_id=clientId%3D%3DNGRA%3D%3Dcommunity%3D%3DApps%3D%3DF47586AE-9E51-4B34-A363-E9C82F485A00&client_secret=clientSecret%3D%3DNGRA%3D%3Dcommunity%3D%3DApps%3D%3DC70D59A9-57DF-40C4-A4FB-DED05157E582&grant_type=login_code&code=${loginCode}&phonenumber=${mobile}`,
+            const response = await axios.post(Env.baseUrl + "/token",`client_id=clientId%3D%3DNGRA%3D%3Dcommunity%3D%3DApps%3D%3DF47586AE-9E51-4B34-A363-E9C82F485A00&client_secret=clientSecret%3D%3DNGRA%3D%3Dcommunity%3D%3DApps%3D%3DC70D59A9-57DF-40C4-A4FB-DED05157E582&grant_type=login_code&code=${value}&phonenumber=${mobile}`,
             {
                 headers:{
                     app_token:"F868DF9E-263C-433D-B5DA-E9CC3C5D6C17",
                     "Content-Type": "application/x-www-form-urlencoded"
-                    // dorost bood chon - dare okeye mrc biudl miknid lotfn
                 }
             }
             );
-            console.log(response);
+            if(response.status===200){
+                setLoading(false);
+                localStorage.setItem("token",response.data.access_token);
+                localStorage.setItem("aToken",response.data.aToken);
+                history.push("/home");
+            }
         }catch({err , response}){
             setErrorModal(true);
+            setLoading(false);
             setError(response.data.error_description);
         }
     }
@@ -79,7 +84,7 @@ const Login=()=>{
                 style={{marginBottom:"100px"}}
                 footer={[
                     <Button 
-                        style={{backgroundColor:Colors.royalBlue,color:"white",borderRadius:"5px"}}
+                        style={{backgroundColor:Colors.royalBlue,color:"white",borderRadius:"5px",border:"none"}}
                         onClick={()=>setErrorModal(false)}
                     >
                         بستن
@@ -133,16 +138,15 @@ const Login=()=>{
                     <PinInput 
                         length={6}
                         focus={true}
-                        type="numeric" 
+                        type="numeric"
                         inputMode="number"
-                        style={{padding: '5px',marginTop:"15px"}}  
+                        style={loading===true ? {opacity:".2",padding: '5px',marginTop:"15px"}: {padding: '5px',marginTop:"15px"}}  
                         inputStyle={{border:"none",backgroundColor:"#001d5341",borderRadius:"6px",margin:"0 3px",width:"45px",height:"50px",color:"#001D53"}}
                         inputFocusStyle={{backgroundColor:"#001D53",color:"white"}}
                         onChange={(value) =>dispatch(setLoginCode(FormatHepler.toEnglishString(value)))}
-                        // onComplete={sendCode}
+                        onComplete={(value)=>sendCode(value)}
                         regexCriteria={/^[ A-Za-z0-9_@./#&+-]*$/}
                     />
-                    <button onClick={(e)=>sendCode(e)}>click</button>
                     <div className="countdown">
                         <img src={countDownImage} alt="countdown" />
                         {isCount ?

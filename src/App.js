@@ -3,8 +3,7 @@ import "./App.css";
 import Header from './Components/Header/Header';
 import Login from './Components/Auth/Login';
 import Home from './Components/Home/Home';
-import { useDispatch, useSelector } from 'react-redux';
-import { setLat , setLong } from './Store/Action';
+import { useHistory } from 'react-router';
 import DesktopView from "./Components/DesktopView/DesktopView";
 import PrivateRoute from "./Helper/PrivateRoute";
 import { Switch , Route } from 'react-router';
@@ -14,18 +13,24 @@ import logoLoading from "./Assets/animations/ngragif.gif";
 
 
 const App=()=>{
-    const dispatch=useDispatch();
-    const lat = useSelector(state=>state.Reducer.lat);
-    const long = useSelector(state=>state.Reducer.long);
+    const history=useHistory();
+    const lat = localStorage.getItem("lat");
+    const long = localStorage.getItem("long");
+    const [loading , setLoading]=useState(lat ? false : true);
     const [error , setError]=useState("");
     const [errorModal , setErrorModal]=useState(false);
     const [textErr , setTextErr]=useState(false);
+
     useEffect(()=>{
-        if (navigator.geolocation && window.outerWidth<=800) {
+        if(localStorage.getItem("token")){
+            history.push("/home");
+        }
+        if (navigator.geolocation && window.outerWidth<=800 && !lat && !long) {
             navigator.geolocation.getCurrentPosition(setCoord,handler);
             function setCoord(position){
-                dispatch(setLat(position.coords.latitude.toFixed(6)));
-                dispatch(setLong(position.coords.longitude.toFixed(6)));
+                localStorage.setItem("lat",position.coords.latitude.toFixed(6));
+                localStorage.setItem("long",position.coords.longitude.toFixed(6));
+                setLoading(false);
                 setTextErr(false);
                 setErrorModal(false);
             }
@@ -63,7 +68,7 @@ const App=()=>{
                     style={{marginBottom:"100px"}}
                     footer={[
                         <Button 
-                            style={{backgroundColor:Colors.royalBlue,color:"white",borderRadius:"5px"}}
+                            style={{backgroundColor:Colors.royalBlue,color:"white",borderRadius:"5px",border:"none"}}
                             onClick={()=>setErrorModal(false)}
                         >
                             بستن
@@ -75,12 +80,12 @@ const App=()=>{
                     </div>
                 </Modal>
                 <Header/>
-                {lat===null ?
+                {loading===true ?
                     <img className="logo-loading" src={logoLoading} alt="loading"/>
                 :
                     <Switch>
                         <Route path="/" exact component={Login}/>
-                        <Route path="/home" component={Home}/>
+                        <PrivateRoute path="/home" component={Home}/>
                     </Switch>
                 }
                 {textErr && <span>دسترسی به موقعیت مکانی ناموفق بود لطفا دوباره وارد شوید</span>}

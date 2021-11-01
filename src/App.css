@@ -26,6 +26,11 @@
   background-size: contain;
   overflow-x: hidden;
 }
+.ant-modal-title{
+  text-align: center;
+  font-size: 14px !important;
+  font-family: iranSansLight !important;
+}
 .ant-modal-footer{
   display: flex;
   justify-content: center;
