@@ -4,9 +4,8 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    position: relative;
     justify-content: flex-start;
-    position: fixed;
-    top: 0;
 }
 .header-bg{
     width: 105%;

@@ -3,7 +3,7 @@
     "background_color" : "#000",
     "display" : "standalone",
     "scope" : "/",
-    "start_url" : "./index.html",
+    "start_url" : "/",
     "short_name" : "Rasad",
     "name" : "سامانه هوشمند رصد",
     "icons": [

@@ -46,19 +46,15 @@ const Login=()=>{
         }
     }
 
-    const sendCode=async()=>{
+    const sendCode=async(e)=>{
+        e.preventDefault();
         try{
-            const response = await axios.post(Env.baseUrl + "/token",
-            {
-                client_id:"clientId==NGRA==community==Apps==F47586AE-9E51-4B34-A363-E9C82F485A00",
-                client_secret:"clientSecret==NGRA==community==Apps==C70D59A9-57DF-40C4-A4FB-DED05157E582",
-                grant_type:"login_code",
-                code:loginCode,
-                phonenumber:mobile
-            },
+            const response = await axios.post(Env.baseUrl + "/token",`client_id=clientId%3D%3DNGRA%3D%3Dcommunity%3D%3DApps%3D%3DF47586AE-9E51-4B34-A363-E9C82F485A00&client_secret=clientSecret%3D%3DNGRA%3D%3Dcommunity%3D%3DApps%3D%3DC70D59A9-57DF-40C4-A4FB-DED05157E582&grant_type=login_code&code=${loginCode}&phonenumber=${mobile}`,
             {
                 headers:{
                     app_token:"F868DF9E-263C-433D-B5DA-E9CC3C5D6C17",
+                    "Content-Type": "application/x-www-form-urlencoded"
+                    // dorost bood chon - dare okeye mrc biudl miknid lotfn
                 }
             }
             );
@@ -114,15 +110,15 @@ const Login=()=>{
                         style={mobile.length < 11 ? {backgroundColor:"gray",color:"white"} :{backgroundColor:Colors.royalBlue,color:"white"}}
                     >
                         {loading ===true ?
-                        <>
-                            <img style={{position:"absolute",left:"10px",top:"13px",width:"20px"}} src={loadingImage} alt="loading" />
+                        <div>
+                            <img src={loadingImage} alt="loading" />
                             <span>لطفا منتظر بمانید</span>
-                        </>
+                        </div>
                         :
-                        <>
-                            <img style={{position:"absolute",left:"10px",top:"12px",width:"20px"}} src={lockImage} alt="lock" />
+                        <div>
+                            <img src={lockImage} alt="lock" />
                             <span>ورود</span>
-                        </>
+                        </div>
                         }
                     </Button>
                 </form>
@@ -143,9 +139,10 @@ const Login=()=>{
                         inputStyle={{border:"none",backgroundColor:"#001d5341",borderRadius:"6px",margin:"0 3px",width:"45px",height:"50px",color:"#001D53"}}
                         inputFocusStyle={{backgroundColor:"#001D53",color:"white"}}
                         onChange={(value) =>dispatch(setLoginCode(FormatHepler.toEnglishString(value)))}
-                        onComplete={sendCode}
+                        // onComplete={sendCode}
                         regexCriteria={/^[ A-Za-z0-9_@./#&+-]*$/}
                     />
+                    <button onClick={(e)=>sendCode(e)}>click</button>
                     <div className="countdown">
                         <img src={countDownImage} alt="countdown" />
                         {isCount ?

@@ -1,14 +1,13 @@
 .desktop{
     width: 100%;
-    height: 100vh;
+    /* height: 100vh; */
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    padding-top: 100px;
+    justify-content: flex-start;
 }
 .desktop>img{
-    width: 30% !important;
+    width: 25% !important;
     margin-bottom: 15px;
 }
 .desktop>span{
