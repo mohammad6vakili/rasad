@@ -26,9 +26,21 @@
   background-size: contain;
   overflow-x: hidden;
 }
+.ant-modal-footer{
+  display: flex;
+  justify-content: center;
+}
+.ant-modal-wrap{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 @media only screen and (max-width:800px){
   .pwa{
     display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
   }
   .app{
     display: none !important;

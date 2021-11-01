@@ -5,7 +5,8 @@
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
-    position: relative;
+    position: fixed;
+    top: 0;
 }
 .header-bg{
     width: 105%;
