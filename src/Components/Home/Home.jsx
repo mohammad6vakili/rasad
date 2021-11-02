@@ -172,7 +172,7 @@ const Home=()=>{
                 <div className="login-modal-content" style={{padding:"0"}}>
                     <PinInput 
                         length={6}
-                        focus={true}
+                        focus
                         initialValue=""
                         type="numeric"
                         inputMode="number"
