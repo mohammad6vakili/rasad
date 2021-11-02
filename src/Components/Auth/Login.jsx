@@ -13,6 +13,8 @@ import Countdown from "react-countdown";
 import FormatHepler from "../../Helper/FormatHelper";
 import lockImage from "../../Assets/images/lock-icon.png";
 import loadingImage from "../../Assets/animations/loading.gif";
+import blueAlertImage from "../../Assets/images/blue-alert.png";
+
 
 const Login=()=>{
     const history=useHistory();
@@ -111,8 +113,8 @@ const Login=()=>{
                     <Button 
                         htmlType="submit"
                         className={`login-button ${loading===true && "btn-loading"}`}
-                        disabled={mobile===""}
-                        style={mobile.length < 11 ? {backgroundColor:"gray",color:"white"} :{backgroundColor:Colors.royalBlue,color:"white"}}
+                        disabled={mobile.length<11 || !localStorage.getItem("lat")}
+                        style={mobile.length < 11 || !localStorage.getItem("lat") ? {backgroundColor:"gray",color:"white"} :{backgroundColor:Colors.royalBlue,color:"white"}}
                     >
                         {loading ===true ?
                         <div>
@@ -126,6 +128,16 @@ const Login=()=>{
                         </div>
                         }
                     </Button>
+                    <div className="login-under-button">
+                        <span>قبل از ورود به نرم افزار باید شماره موبایل خود را به مسئول اداری مربوطه اعلام بفرمایید</span>
+                        <img src={blueAlertImage} alt="alert"/>
+                    </div>
+                    {!localStorage.getItem("lat") &&
+                        <>
+                            <small style={{color:"red"}}>موقعیت مکانی شما یافت نشد</small>
+                            <small style={{color:Colors.royalBlue,cursor:"pointer"}} onClick={()=>window.location.reload()}>شروع دوباره</small>
+                        </>
+                    }
                 </form>
             :
                 <form 

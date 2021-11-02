@@ -7,6 +7,7 @@ import exitImage from "../../Assets/images/exit-submit.png";
 import axios from 'axios';
 import Env from "../../Constant/Env.json";
 import { useDispatch , useSelector} from 'react-redux';
+import { useHistory } from 'react-router';
 import { setUserStatus } from '../../Store/Action';
 import { Modal , Button } from 'antd';
 import Colors from "../../Helper/Colors";
@@ -17,11 +18,13 @@ import PinInput from "react-pin-input";
 
 const Home=()=>{
     const dispatch=useDispatch();
+    const history=useHistory();
     const userStatus=useSelector(state=>state.Reducer.userStatus);
     const [errorModal , setErrorModal]=useState(false);
     const [error , setError]=useState("");
     const [viewCode , setViewCode]=useState(false);
     const [loading , setLoading]=useState(false);
+    const [outModal , setOutModal]=useState(false);
     
     const getUserStatus=async()=>{
         const token = localStorage.getItem("token");
@@ -111,6 +114,7 @@ const Home=()=>{
                 getUserStatus();
                 setViewCode(false);
                 setLoading(false);
+                setOutModal(true);
             }
         }catch({err , response}){
             setErrorModal(true);
@@ -125,7 +129,10 @@ const Home=()=>{
             }
         }
     }
-
+    const logOut=()=>{
+        localStorage.clear();
+        history.push("/");
+    }
     useEffect(()=>{
         getUserStatus();
     },[])
@@ -173,11 +180,31 @@ const Home=()=>{
                         type="numeric"
                         inputMode="number"
                         style={loading===true ? {opacity:".2",marginTop:"15px"}: {marginTop:"15px"}}  
-                        inputStyle={{border:"none",backgroundColor:"#001d5341",borderRadius:"6px",margin:"0 3px",width:"45px",height:"50px",color:"#001D53"}}
+                        inputStyle={{border:"none",backgroundColor:"#001d5341",borderRadius:"6px",margin:"0 3px",width:"40px",height:"45px",color:"#001D53"}}
                         inputFocusStyle={{backgroundColor:"#001D53",color:"white"}}
                         onComplete={(value)=>submitRequest(value)}
                         regexCriteria={/^[ A-Za-z0-9_@./#&+-]*$/}
                     />
+                </div>
+            </Modal>
+            <Modal
+                title="" 
+                visible={outModal} 
+                onOk={()=>setOutModal(false)} 
+                onCancel={()=>setOutModal(false)} 
+                style={{marginBottom:"100px"}}
+                footer={[
+                    <Button 
+                        style={{backgroundColor:"red",color:"white",borderRadius:"5px",border:"none"}}
+                        onClick={()=>setOutModal(false)}
+                        onClick={logOut}
+                    >
+                        خروج
+                    </Button>
+                ]}
+            >
+                <div className="login-modal-content">
+                    موقعیت شما با موفقیت ارسال شد . میتوانید از برنامه خارج شوید
                 </div>
             </Modal>
             <div className="home-status">

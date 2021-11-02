@@ -43,6 +43,18 @@
     margin-right: auto;
     padding-right: 10px;
 }
+.login-under-button{
+    width: 80% !important;
+    display: flex;
+    margin-top: 10px;
+    font-size: 12px;
+    text-align: right;
+    align-items: center;
+    justify-content: center;
+}
+.login-under-button>span{
+    margin-right: 10px;
+}
 .btn-loading{
     background-color: red !important;
 }
