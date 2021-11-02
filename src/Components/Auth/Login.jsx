@@ -6,7 +6,6 @@ import axios from "axios";
 import Env from "../../Constant/Env.json";
 import { useHistory } from 'react-router';
 import { Input , Button, Modal , InputNumber} from 'antd';
-import PhoneInput from 'react-phone-number-input';
 import Colors from "../../Helper/Colors";
 import PinInput from "react-pin-input";
 import countDownImage from "../../Assets/images/countdown.png";
