@@ -5,7 +5,8 @@ import { setUserMobile , setLoginCode} from '../../Store/Action';
 import axios from "axios";
 import Env from "../../Constant/Env.json";
 import { useHistory } from 'react-router';
-import { Input , Button, Modal } from 'antd';
+import { Input , Button, Modal , InputNumber} from 'antd';
+import PhoneInput from 'react-phone-number-input';
 import Colors from "../../Helper/Colors";
 import PinInput from "react-pin-input";
 import countDownImage from "../../Assets/images/countdown.png";
@@ -33,7 +34,7 @@ const Login=()=>{
         try{
             const response=await axios.post(Env.baseUrl + Env.version + "/Account/AuthenticationCodeRequest",
                 {
-                    PhoneNumber:mobile
+                    PhoneNumber:"0" + mobile
                 }
             );
             if(response.status===200){
@@ -51,7 +52,7 @@ const Login=()=>{
     const sendCode=async(value)=>{
         setLoading(true);
         try{
-            const response = await axios.post(Env.baseUrl + "/token",`client_id=clientId%3D%3DNGRA%3D%3Dcommunity%3D%3DApps%3D%3DF47586AE-9E51-4B34-A363-E9C82F485A00&client_secret=clientSecret%3D%3DNGRA%3D%3Dcommunity%3D%3DApps%3D%3DC70D59A9-57DF-40C4-A4FB-DED05157E582&grant_type=login_code&code=${value}&phonenumber=${mobile}`,
+            const response = await axios.post(Env.baseUrl + "/token",`client_id=clientId%3D%3DNGRA%3D%3Dcommunity%3D%3DApps%3D%3DF47586AE-9E51-4B34-A363-E9C82F485A00&client_secret=clientSecret%3D%3DNGRA%3D%3Dcommunity%3D%3DApps%3D%3DC70D59A9-57DF-40C4-A4FB-DED05157E582&grant_type=login_code&code=${value}&phonenumber=0${mobile}`,
             {
                 headers:{
                     app_token:"F868DF9E-263C-433D-B5DA-E9CC3C5D6C17",
@@ -102,19 +103,19 @@ const Login=()=>{
                     className="send-number"
                     onSubmit={sendNumber} 
                 >
-                    <Input
-                        className="login-input"
-                        placeholder="شماره موبایل"
-                        onChange={(e)=>dispatch(setUserMobile(FormatHepler.toEnglishString(e.target.value)))}
+                    <InputNumber
+                        value={mobile}
                         autoFocus
-                        required
-                        pattern = "[0-9]{11}"
+                        className="login-input"
+                        onChange={(value)=>dispatch(setUserMobile(value))}
+                        placeholder="شماره موبایل"
+                        pattern = "[0-9]{10}"
                     />
                     <Button 
                         htmlType="submit"
                         className={`login-button ${loading===true && "btn-loading"}`}
-                        disabled={mobile.length<11 || !localStorage.getItem("lat")}
-                        style={mobile.length < 11 || !localStorage.getItem("lat") ? {backgroundColor:"gray",color:"white"} :{backgroundColor:Colors.royalBlue,color:"white"}}
+                        disabled={!mobile || !localStorage.getItem("lat")}
+                        style={!mobile || !localStorage.getItem("lat") ? {backgroundColor:"gray",color:"white"} :{backgroundColor:Colors.royalBlue,color:"white"}}
                     >
                         {loading ===true ?
                         <div>
@@ -164,7 +165,7 @@ const Login=()=>{
                         {isCount ?
                         <span>
                             <Countdown 
-                                date={Date.now() + 60000}
+                                date={Date.now() + 120000}
                                 autoStart={true} 
                                 zeroPadTime={2}
                                 renderer={renderer}

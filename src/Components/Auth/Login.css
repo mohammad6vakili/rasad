@@ -19,6 +19,8 @@
     border: 1px solid #013281 !important;
     border-radius: 5px;
     text-align: center;
+    display: flex;
+    align-items: center;
 }
 .login-button{
     width: 80% !important;

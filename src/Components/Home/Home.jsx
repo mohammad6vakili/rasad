@@ -25,6 +25,7 @@ const Home=()=>{
     const [viewCode , setViewCode]=useState(false);
     const [loading , setLoading]=useState(false);
     const [outModal , setOutModal]=useState(false);
+    const [pin , setPin]=useState(null);
     
     const getUserStatus=async()=>{
         const token = localStorage.getItem("token");
@@ -42,13 +43,11 @@ const Home=()=>{
             dispatch(setUserStatus(response.data.result.status));
         }catch({err , response}){
             setErrorModal(true);
-            if(response.data.message==="Authorization has been denied for this request."){
+            if(response.data.message==="Authorization has been denied for this request."||response.status===401){
                 setError("کاربر یافت نشد");
                 setErrorModal(true);
-                localStorage.removeItem("token");
-                localStorage.removeItem("aToken");
-                localStorage.removeItem("lat");
-                localStorage.removeItem("long");
+                localStorage.clear();
+                history.push("/");
             }
         }
     }
@@ -78,13 +77,10 @@ const Home=()=>{
         }catch({err , response}){
             setLoading(false);
             setErrorModal(true);
-            if(response.data.message==="Authorization has been denied for this request."){
+            if(response.data.message==="Authorization has been denied for this request."||response.status===401){
                 setError("کاربر یافت نشد");
                 setErrorModal(true);
-                localStorage.removeItem("token");
-                localStorage.removeItem("aToken");
-                localStorage.removeItem("lat");
-                localStorage.removeItem("long");
+                localStorage.clear();
             }
         }
     }
@@ -118,14 +114,11 @@ const Home=()=>{
             }
         }catch({err , response}){
             setErrorModal(true);
-            if(response.data.message==="Authorization has been denied for this request."){
+            if(response.data.message==="Authorization has been denied for this request."||response.status===401){
                 setError("کاربر یافت نشد");
                 setLoading(false);
                 setErrorModal(true);
-                localStorage.removeItem("token");
-                localStorage.removeItem("aToken");
-                localStorage.removeItem("lat");
-                localStorage.removeItem("long");
+                localStorage.clear();
             }
         }
     }
@@ -133,6 +126,12 @@ const Home=()=>{
     useEffect(()=>{
         getUserStatus();
     },[])
+
+    useEffect(()=>{
+        if(pin){
+            pin.clear();
+        }
+    },[viewCode])
 
     return(
         <div className="home">
@@ -174,11 +173,13 @@ const Home=()=>{
                     <PinInput 
                         length={6}
                         focus={true}
+                        initialValue=""
                         type="numeric"
                         inputMode="number"
                         style={loading===true ? {opacity:".2",marginTop:"15px"}: {marginTop:"15px"}}  
                         inputStyle={{border:"none",backgroundColor:"#001d5341",borderRadius:"6px",margin:"0 3px",width:"40px",height:"45px",color:"#001D53"}}
                         inputFocusStyle={{backgroundColor:"#001D53",color:"white"}}
+                        ref={p => setPin(p)}
                         onComplete={(value)=>submitRequest(value)}
                         regexCriteria={/^[ A-Za-z0-9_@./#&+-]*$/}
                     />
