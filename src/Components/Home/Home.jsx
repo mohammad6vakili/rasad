@@ -129,10 +129,7 @@ const Home=()=>{
             }
         }
     }
-    const logOut=()=>{
-        localStorage.clear();
-        history.push("/");
-    }
+
     useEffect(()=>{
         getUserStatus();
     },[])
@@ -185,26 +182,6 @@ const Home=()=>{
                         onComplete={(value)=>submitRequest(value)}
                         regexCriteria={/^[ A-Za-z0-9_@./#&+-]*$/}
                     />
-                </div>
-            </Modal>
-            <Modal
-                title="" 
-                visible={outModal} 
-                onOk={()=>setOutModal(false)} 
-                onCancel={()=>setOutModal(false)} 
-                style={{marginBottom:"100px"}}
-                footer={[
-                    <Button 
-                        style={{backgroundColor:"red",color:"white",borderRadius:"5px",border:"none"}}
-                        onClick={()=>setOutModal(false)}
-                        onClick={logOut}
-                    >
-                        خروج
-                    </Button>
-                ]}
-            >
-                <div className="login-modal-content">
-                    موقعیت شما با موفقیت ارسال شد . میتوانید از برنامه خارج شوید
                 </div>
             </Modal>
             <div className="home-status">
