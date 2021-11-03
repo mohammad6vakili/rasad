@@ -24,8 +24,42 @@ const Home=()=>{
     const [error , setError]=useState("");
     const [viewCode , setViewCode]=useState(false);
     const [loading , setLoading]=useState(false);
-    const [outModal , setOutModal]=useState(false);
     const [pin , setPin]=useState(null);
+    const [locationUpdate , setLocationUpdate]=useState(false);
+
+    const getLocation=async()=>{
+        if (navigator.geolocation && window.outerWidth<=800) {
+            navigator.geolocation.getCurrentPosition(setCoord,handler);
+            function setCoord(position){
+                localStorage.setItem("lat",position.coords.latitude.toFixed(6));
+                localStorage.setItem("long",position.coords.longitude.toFixed(6));
+                setLocationUpdate(true);
+                setErrorModal(false);
+                applyRequest();
+            }
+            function handler(error){
+                setErrorModal(true);
+                switch(error.code) {
+                    case error.PERMISSION_DENIED:
+                        setError("برای استفاده از نرم افزار نیاز به دسترسی موقعیت مکانی میباشد.لطفا خارج شوید و دوباره وارد شوید یا صفحه را رفرش کنید")
+                        setLoading(false);
+                        break;
+                    case error.POSITION_UNAVAILABLE:
+                        setError("موقعیت جغرافیایی ناشناس میباشد.");
+                        setLoading(false);
+                        break;
+                    case error.TIMEOUT:
+                        setError("لطفا از برنامه خارج شوید و دوباره امتحان کنید.");
+                        setLoading(false);
+                        break;
+                    case error.UNKNOWN_ERROR:
+                        setError("یک خطای ناشناس رخ داده !");
+                        setLoading(false);
+                        break;
+                  }
+            }
+        }
+    }
     
     const getUserStatus=async()=>{
         const token = localStorage.getItem("token");
@@ -56,33 +90,34 @@ const Home=()=>{
         setLoading(true);
         const token = localStorage.getItem("token");
         const aToken = localStorage.getItem("aToken");
-        try{
-            const response = await axios.post(Env.baseUrl + Env.version + "/attendences/applyrequest",
-            {
-            }
-            ,
-            {
-                headers:{
-                    "Authorization":"Bearer "+token,
-                    "Content-Type":"application/json",
-                    "aToken":aToken
+            try{
+                const response = await axios.post(Env.baseUrl + Env.version + "/attendences/applyrequest",
+                {
+                }
+                ,
+                {
+                    headers:{
+                        "Authorization":"Bearer "+token,
+                        "Content-Type":"application/json",
+                        "aToken":aToken
+                    }
+                }
+                )
+                console.log(response.data);
+                if(response.status===200){
+                    setViewCode(true);
+                    setLoading(false);
+                    setLocationUpdate(false);
+                }
+            }catch({err , response}){
+                setLoading(false);
+                setErrorModal(true);
+                if(response.data.message==="Authorization has been denied for this request."||response.status===401){
+                    setError("کاربر یافت نشد");
+                    setErrorModal(true);
+                    localStorage.clear();
                 }
             }
-            )
-            console.log(response.data);
-            if(response.status===200){
-                setViewCode(true);
-                setLoading(false);
-            }
-        }catch({err , response}){
-            setLoading(false);
-            setErrorModal(true);
-            if(response.data.message==="Authorization has been denied for this request."||response.status===401){
-                setError("کاربر یافت نشد");
-                setErrorModal(true);
-                localStorage.clear();
-            }
-        }
     }
 
     const submitRequest=async(value)=>{
@@ -110,7 +145,6 @@ const Home=()=>{
                 getUserStatus();
                 setViewCode(false);
                 setLoading(false);
-                setOutModal(true);
             }
         }catch({err , response}){
             setErrorModal(true);
@@ -197,7 +231,7 @@ const Home=()=>{
             </div>
             <div className="home-action-button-wrapper">
                 {userStatus===0 &&
-                    <div onClick={applyRequest} style={{backgroundColor:Colors.royalBlue}}>
+                    <div onClick={getLocation} style={{backgroundColor:Colors.royalBlue}}>
                         {loading===false ?
                         <>
                             <img src={loginImage} alt="enter submit" />
@@ -209,7 +243,7 @@ const Home=()=>{
                     </div>
                 }
                 {userStatus===1 &&
-                    <div onClick={applyRequest} style={{backgroundColor:"red"}}>
+                    <div onClick={getLocation} style={{backgroundColor:"red"}}>
                         {loading===false ?
                         <>
                             <img src={exitImage} alt="exit submit" />
