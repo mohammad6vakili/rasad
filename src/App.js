@@ -11,7 +11,6 @@ import { Modal , Button} from 'antd';
 import Colors from './Helper/Colors';
 import logoLoading from "./Assets/animations/ngragif.gif";
 
-
 const App=()=>{
     const history=useHistory();
     const lat = localStorage.getItem("lat");
