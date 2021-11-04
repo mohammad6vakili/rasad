@@ -83,7 +83,7 @@ const App=()=>{
                         <PrivateRoute path="/home" component={Home}/>
                     </Switch>
                 }
-                {textErr && location.pathname==="/" && <span style={{textAlign:"center"}}>دسترسی به موقعیت مکانی ناموفق بود لطفا دوباره وارد شوید</span>}
+                {textErr && <span style={{textAlign:"center",fontSize:"12px",marginTop:"7px",color:"red"}}>دسترسی به موقعیت مکانی ناموفق بود لطفا دوباره امتحان کنید</span>}
                 {location.pathname!=="/" &&
                     <Menu/>
                 }
