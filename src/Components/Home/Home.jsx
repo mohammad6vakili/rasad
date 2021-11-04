@@ -14,14 +14,13 @@ import Colors from "../../Helper/Colors";
 import loadingImage from "../../Assets/animations/watting.gif";
 import circleLoadingImage from "../../Assets/animations/loading.gif";
 import PinInput from "react-pin-input";
+import { toast } from 'react-toastify';
 
 
 const Home=()=>{
     const dispatch=useDispatch();
     const history=useHistory();
     const userStatus=useSelector(state=>state.Reducer.userStatus);
-    const [errorModal , setErrorModal]=useState(false);
-    const [error , setError]=useState("");
     const [viewCode , setViewCode]=useState(false);
     const [loading , setLoading]=useState(false);
     const [pin , setPin]=useState(null);
@@ -34,32 +33,36 @@ const Home=()=>{
                 localStorage.setItem("lat",position.coords.latitude.toFixed(6));
                 localStorage.setItem("long",position.coords.longitude.toFixed(6));
                 setLocationUpdate(true);
-                setErrorModal(false);
                 applyRequest();
             }
             function handler(error){
                 switch(error.code) {
                     case error.PERMISSION_DENIED:
-                        setError("برای استفاده از نرم افزار نیاز به دسترسی موقعیت مکانی میباشد.لطفا خارج شوید و دوباره وارد شوید یا صفحه را رفرش کنید")
-                        setLoading(false);
-                        break;
+                        toast.error("برای استفاده از نرم افزار نیاز به دسترسی موقعیت مکانی میباشد.لطفا خارج شوید و دوباره وارد شوید یا صفحه را رفرش کنید",{
+                            position: toast.POSITION.BOTTOM_LEFT
+                        });
+                      break;
                     case error.POSITION_UNAVAILABLE:
-                        setError("موقعیت جغرافیایی ناشناس میباشد.");
-                        setLoading(false);
-                        break;
+                        toast.error("موقعیت جغرافیایی ناشناس میباشد.",{
+                            position: toast.POSITION.BOTTOM_LEFT
+                        });
+                      break;
                     case error.TIMEOUT:
-                        setError("لطفا از برنامه خارج شوید و دوباره امتحان کنید.");
-                        setLoading(false);
-                        break;
+                        toast.error("لطفا از برنامه خارج شوید و دوباره امتحان کنید.",{
+                            position: toast.POSITION.BOTTOM_LEFT
+                        });
+                      break;
                     case error.UNKNOWN_ERROR:
-                        setError("یک خطای ناشناس رخ داده !");
-                        setLoading(false);
-                        break;
+                        toast.error("یک خطای ناشناس رخ داده !",{
+                            position: toast.POSITION.BOTTOM_LEFT
+                        });  
+                      break;
                   }
             }
         }else{
-            setErrorModal(true);
-            setError("دسترسی به موقعیت مکانی شما.لطفا لوکیشن دستگاه خود را روشن کنید")
+            toast.error("دسترسی به موقعیت مکانی شما.لطفا لوکیشن دستگاه خود را روشن کنید",{
+                position: toast.POSITION.BOTTOM_LEFT
+            });  
         }
     }
     
@@ -78,12 +81,18 @@ const Home=()=>{
             )
             dispatch(setUserStatus(response.data.result.status));
         }catch({err , response}){
-            setErrorModal(true);
-            if(response.data.message==="Authorization has been denied for this request."||response.status===401){
-                setError("کاربر یافت نشد");
-                setErrorModal(true);
-                localStorage.clear();
-                history.push("/");
+            if(response){
+                if(response.data.message==="Authorization has been denied for this request."||response.status===401){
+                    toast.error("کاربر یافت نشد",{
+                        position: toast.POSITION.BOTTOM_LEFT
+                    });  
+                    localStorage.clear();
+                    history.push("/");
+                }
+            }else{
+                toast.error("خطا در برقراری ارتباط",{
+                    position: toast.POSITION.BOTTOM_LEFT
+                });
             }
         }
     }
@@ -113,11 +122,18 @@ const Home=()=>{
                 }
             }catch({err , response}){
                 setLoading(false);
-                setErrorModal(true);
-                if(response.data.message==="Authorization has been denied for this request."||response.status===401){
-                    setError("کاربر یافت نشد");
-                    setErrorModal(true);
-                    localStorage.clear();
+                if(response){
+                    if(response.data.message==="Authorization has been denied for this request."||response.status===401){
+                        toast.error("کاربر یافت نشد",{
+                            position: toast.POSITION.BOTTOM_LEFT
+                        });  
+                        localStorage.clear();
+                        history.push("/");
+                    }
+                }else{
+                    toast.error("خطا در برقراری ارتباط",{
+                        position: toast.POSITION.BOTTOM_LEFT
+                    });
                 }
             }
     }
@@ -149,12 +165,19 @@ const Home=()=>{
                 setLoading(false);
             }
         }catch({err , response}){
-            setErrorModal(true);
-            if(response.data.message==="Authorization has been denied for this request."||response.status===401){
-                setError("کاربر یافت نشد");
-                setLoading(false);
-                setErrorModal(true);
-                localStorage.clear();
+            setLoading(false);
+            if(response){
+                if(response.data.message==="Authorization has been denied for this request."||response.status===401){
+                    toast.error("کاربر یافت نشد",{
+                        position: toast.POSITION.BOTTOM_LEFT
+                    });  
+                    localStorage.clear();
+                    history.push("/");
+                }
+            }else{
+                toast.error("خطا در برقراری ارتباط",{
+                    position: toast.POSITION.BOTTOM_LEFT
+                });
             }
         }
     }
@@ -171,26 +194,6 @@ const Home=()=>{
 
     return(
         <div className="home">
-            <Modal
-                title="" 
-                visible={errorModal} 
-                onOk={()=>setErrorModal(false)} 
-                onCancel={()=>setErrorModal(false)}
-                closable={false}
-                style={{marginBottom:"100px"}}
-                footer={[
-                    <Button 
-                        style={{backgroundColor:Colors.royalBlue,color:"white",borderRadius:"5px",border:"none"}}
-                        onClick={()=>setErrorModal(false)}
-                    >
-                        بستن
-                    </Button>
-                ]}
-            >
-                <div className="login-modal-content">
-                    {error}
-                </div>
-            </Modal>
             <Modal
                 title="لطفا کد ارسال شده را وارد کنید" 
                 visible={viewCode}

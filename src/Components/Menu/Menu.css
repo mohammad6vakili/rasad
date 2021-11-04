@@ -4,7 +4,7 @@
   height: 55px;
   position: fixed;
   bottom: 0px;
-  z-index: 1000000;
+  z-index: 1;
   background-color: white;
   box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.484);
   border-radius: 6px 6px 0 0;

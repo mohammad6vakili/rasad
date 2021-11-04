@@ -5,7 +5,7 @@ import { setUserMobile , setLoginCode} from '../../Store/Action';
 import axios from "axios";
 import Env from "../../Constant/Env.json";
 import { useHistory } from 'react-router';
-import { Input , Button, Modal , InputNumber} from 'antd';
+import { Input , Button, Modal} from 'antd';
 import Colors from "../../Helper/Colors";
 import PinInput from "react-pin-input";
 import countDownImage from "../../Assets/images/countdown.png";
@@ -14,6 +14,7 @@ import FormatHepler from "../../Helper/FormatHelper";
 import lockImage from "../../Assets/images/lock-icon.png";
 import loadingImage from "../../Assets/animations/loading.gif";
 import blueAlertImage from "../../Assets/images/blue-alert.png";
+import { toast } from 'react-toastify';
 
 
 const Login=()=>{
@@ -23,9 +24,8 @@ const Login=()=>{
     const loginCode=useSelector(state=>state.Reducer.loginCode);
     const [loginStatus , setLoginStatus]=useState(1);
     const [loading , setLoading]=useState(false);
-    const [error , setError]=useState("");
-    const [errorModal , setErrorModal]=useState(false);
     const [isCount , setIsCount]=useState(false);
+
 
     const sendNumber=async(e)=>{
         e.preventDefault();
@@ -42,9 +42,16 @@ const Login=()=>{
                 setLoading(false);
             }
         }catch({err , response}){
-            setErrorModal(true);
             setLoading(false);
-            setError(response.data.messages[0].message);
+            if(response){
+                toast.error(response.data.messages[0].message,{
+                    position: toast.POSITION.BOTTOM_LEFT
+                });
+            }else{
+                toast.error("خطا در برقراری ارتباط",{
+                    position: toast.POSITION.BOTTOM_LEFT
+                });
+            }
         }
     }
 
@@ -64,11 +71,21 @@ const Login=()=>{
                 localStorage.setItem("token",response.data.access_token);
                 localStorage.setItem("aToken",response.data.aToken);
                 history.push("/home");
+                toast.success("با موفقیت وارد شدید",{
+                    position: toast.POSITION.BOTTOM_LEFT
+                });
             }
         }catch({err , response}){
-            setErrorModal(true);
             setLoading(false);
-            setError(response.data.error_description);
+            if(response){
+                toast.error(response.data.error_description,{
+                    position: toast.POSITION.BOTTOM_LEFT
+                });
+            }else{
+                toast.error("خطا در برقراری ارتباط",{
+                    position: toast.POSITION.BOTTOM_LEFT
+                });
+            }
         }
     }
 
@@ -78,25 +95,6 @@ const Login=()=>{
 
     return(
         <div className="login">
-            <Modal
-                title="" 
-                visible={errorModal} 
-                onOk={()=>setErrorModal(false)} 
-                onCancel={()=>setErrorModal(false)} 
-                style={{marginBottom:"100px"}}
-                footer={[
-                    <Button 
-                        style={{backgroundColor:Colors.royalBlue,color:"white",borderRadius:"5px",border:"none"}}
-                        onClick={()=>setErrorModal(false)}
-                    >
-                        بستن
-                    </Button>
-                ]}
-            >
-                <div className="login-modal-content">
-                    {error}
-                </div>
-            </Modal>
             {loginStatus===1 ?
                 <form
                     className="send-number"

@@ -13,7 +13,8 @@ const Menu=()=>{
     const [outModal , setOutModal]=useState(false);
     
     const logout=()=>{
-        localStorage.clear();
+        localStorage.removeItem("token");
+        localStorage.removeItem("aToken");
         setOutModal(false);
         history.push("/");
     }
@@ -48,9 +49,8 @@ const Menu=()=>{
                 آیا مطمئن هستید میخواهید خارج شوید؟
                 </div>
             </Modal>
-            <div>
+            <div onClick={()=>setOutModal(true)}>
                 <img 
-                    onClick={()=>setOutModal(true)}
                     src={exitIcon} 
                     alt="exit" 
                 />

@@ -20,14 +20,9 @@ const App=()=>{
     const lat = localStorage.getItem("lat");
     const long = localStorage.getItem("long");
     const [loading , setLoading]=useState(lat ? false : true);
-    const [error , setError]=useState("");
-    const [errorModal , setErrorModal]=useState(false);
     const [textErr , setTextErr]=useState(false);
 
     useEffect(()=>{
-        // toast.error("mioo",{
-        //     position: toast.POSITION.BOTTOM_LEFT
-        // });
         if(localStorage.getItem("token")){
             history.push("/home");
         }
@@ -79,25 +74,6 @@ const App=()=>{
                     copyClosePrompt="Close" 
                     permanentlyHideOnDismiss={false}
                 />
-                <Modal
-                    title="" 
-                    visible={errorModal} 
-                    onOk={()=>setErrorModal(false)} 
-                    onCancel={()=>setErrorModal(false)} 
-                    style={{marginBottom:"100px"}}
-                    footer={[
-                        <Button 
-                            style={{backgroundColor:Colors.royalBlue,color:"white",borderRadius:"5px",border:"none"}}
-                            onClick={()=>setErrorModal(false)}
-                        >
-                            بستن
-                        </Button>
-                    ]}
-                >
-                    <div className="login-modal-content">
-                        {error}
-                    </div>
-                </Modal>
                 <Header/>
                 {loading===true ?
                     <img className="logo-loading" src={logoLoading} alt="loading"/>
@@ -107,7 +83,7 @@ const App=()=>{
                         <PrivateRoute path="/home" component={Home}/>
                     </Switch>
                 }
-                {textErr && <span style={{textAlign:"center"}}>دسترسی به موقعیت مکانی ناموفق بود لطفا دوباره وارد شوید</span>}
+                {textErr && location.pathname==="/" && <span style={{textAlign:"center"}}>دسترسی به موقعیت مکانی ناموفق بود لطفا دوباره وارد شوید</span>}
                 {location.pathname!=="/" &&
                     <Menu/>
                 }
