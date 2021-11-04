@@ -3,7 +3,7 @@ import "./App.css";
 import Header from './Components/Header/Header';
 import Login from './Components/Auth/Login';
 import Home from './Components/Home/Home';
-import { useHistory } from 'react-router';
+import { useHistory , useLocation } from 'react-router';
 import DesktopView from "./Components/DesktopView/DesktopView";
 import PrivateRoute from "./Helper/PrivateRoute";
 import { Switch , Route } from 'react-router';
@@ -12,9 +12,11 @@ import Colors from './Helper/Colors';
 import logoLoading from "./Assets/animations/ngragif.gif";
 import { toast } from 'react-toastify';
 import PWAPrompt from 'react-ios-pwa-prompt';
+import Menu from "./Components/Menu/Menu";
 
 const App=()=>{
     const history=useHistory();
+    const location=useLocation();
     const lat = localStorage.getItem("lat");
     const long = localStorage.getItem("long");
     const [loading , setLoading]=useState(lat ? false : true);
@@ -29,30 +31,36 @@ const App=()=>{
         if(localStorage.getItem("token")){
             history.push("/home");
         }
-        if (navigator.geolocation && window.outerWidth<=800 && !lat && !long) {
+        if (navigator.geolocation && window.outerWidth<=800) {
             navigator.geolocation.getCurrentPosition(setCoord,handler);
             function setCoord(position){
                 localStorage.setItem("lat",position.coords.latitude.toFixed(6));
                 localStorage.setItem("long",position.coords.longitude.toFixed(6));
                 setLoading(false);
                 setTextErr(false);
-                setErrorModal(false);
             }
             function handler(error){
-                setErrorModal(true);
                 setTextErr(true);
                 switch(error.code) {
                     case error.PERMISSION_DENIED:
-                        setError("برای استفاده از نرم افزار نیاز به دسترسی موقعیت مکانی میباشد.لطفا خارج شوید و دوباره وارد شوید یا صفحه را رفرش کنید")
+                        toast.error("برای استفاده از نرم افزار نیاز به دسترسی موقعیت مکانی میباشد.لطفا خارج شوید و دوباره وارد شوید یا صفحه را رفرش کنید",{
+                            position: toast.POSITION.BOTTOM_LEFT
+                        });
                       break;
                     case error.POSITION_UNAVAILABLE:
-                        setError("موقعیت جغرافیایی ناشناس میباشد.");
+                        toast.error("موقعیت جغرافیایی ناشناس میباشد.",{
+                            position: toast.POSITION.BOTTOM_LEFT
+                        });
                       break;
                     case error.TIMEOUT:
-                      setError("لطفا از برنامه خارج شوید و دوباره امتحان کنید.");
+                        toast.error("لطفا از برنامه خارج شوید و دوباره امتحان کنید.",{
+                            position: toast.POSITION.BOTTOM_LEFT
+                        });
                       break;
                     case error.UNKNOWN_ERROR:
-                      setError("یک خطای ناشناس رخ داده !");
+                        toast.error("یک خطای ناشناس رخ داده !",{
+                            position: toast.POSITION.BOTTOM_LEFT
+                        });  
                       break;
                   }
             }
@@ -99,7 +107,10 @@ const App=()=>{
                         <PrivateRoute path="/home" component={Home}/>
                     </Switch>
                 }
-                {textErr && <span>دسترسی به موقعیت مکانی ناموفق بود لطفا دوباره وارد شوید</span>}
+                {textErr && <span style={{textAlign:"center"}}>دسترسی به موقعیت مکانی ناموفق بود لطفا دوباره وارد شوید</span>}
+                {location.pathname!=="/" &&
+                    <Menu/>
+                }
             </div>
         </>
     )

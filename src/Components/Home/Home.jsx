@@ -175,7 +175,8 @@ const Home=()=>{
                 title="" 
                 visible={errorModal} 
                 onOk={()=>setErrorModal(false)} 
-                onCancel={()=>setErrorModal(false)} 
+                onCancel={()=>setErrorModal(false)}
+                closable={false}
                 style={{marginBottom:"100px"}}
                 footer={[
                     <Button 
@@ -192,7 +193,8 @@ const Home=()=>{
             </Modal>
             <Modal
                 title="لطفا کد ارسال شده را وارد کنید" 
-                visible={viewCode} 
+                visible={viewCode}
+                closable={false}
                 onOk={()=>setViewCode(false)} 
                 onCancel={()=>setViewCode(false)} 
                 style={{marginBottom:"100px"}}
@@ -237,7 +239,7 @@ const Home=()=>{
                         {loading===false ?
                         <>
                             <img src={loginImage} alt="enter submit" />
-                            <span style={{marginTop:"5px"}}>ثبت ورود</span>
+                            <span>ثبت ورود</span>
                         </>
                         :
                             <img style={{width:"30%"}} src={circleLoadingImage} alt="loading" />
@@ -249,7 +251,7 @@ const Home=()=>{
                         {loading===false ?
                         <>
                             <img src={exitImage} alt="exit submit" />
-                            <span style={{marginTop:"5px"}}>ثبت خروج</span>
+                            <span>ثبت خروج</span>
                         </>
                         :
                             <img style={{width:"30%"}} src={circleLoadingImage} alt="loading" />
