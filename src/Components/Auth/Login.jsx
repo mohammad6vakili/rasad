@@ -45,11 +45,11 @@ const Login=()=>{
             setLoading(false);
             if(response){
                 toast.error(response.data.messages[0].message,{
-                    position: toast.POSITION.BOTTOM_LEFT
+                    position: toast.POSITION.TOP_RIGHT
                 });
             }else{
                 toast.error("خطا در برقراری ارتباط",{
-                    position: toast.POSITION.BOTTOM_LEFT
+                    position: toast.POSITION.TOP_RIGHT
                 });
             }
         }
@@ -72,18 +72,18 @@ const Login=()=>{
                 localStorage.setItem("aToken",response.data.aToken);
                 history.push("/home");
                 toast.success("با موفقیت وارد شدید",{
-                    position: toast.POSITION.BOTTOM_LEFT
+                    position: toast.POSITION.TOP_RIGHT
                 });
             }
         }catch({err , response}){
             setLoading(false);
             if(response){
                 toast.error(response.data.error_description,{
-                    position: toast.POSITION.BOTTOM_LEFT
+                    position: toast.POSITION.TOP_RIGHT
                 });
             }else{
                 toast.error("خطا در برقراری ارتباط",{
-                    position: toast.POSITION.BOTTOM_LEFT
+                    position: toast.POSITION.TOP_RIGHT
                 });
             }
         }

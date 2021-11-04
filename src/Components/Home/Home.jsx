@@ -39,29 +39,29 @@ const Home=()=>{
                 switch(error.code) {
                     case error.PERMISSION_DENIED:
                         toast.error("برای استفاده از نرم افزار نیاز به دسترسی موقعیت مکانی میباشد.لطفا خارج شوید و دوباره وارد شوید یا صفحه را رفرش کنید",{
-                            position: toast.POSITION.BOTTOM_LEFT
+                            position: toast.POSITION.TOP_RIGHT
                         });
                       break;
                     case error.POSITION_UNAVAILABLE:
                         toast.error("موقعیت جغرافیایی ناشناس میباشد.",{
-                            position: toast.POSITION.BOTTOM_LEFT
+                            position: toast.POSITION.TOP_RIGHT
                         });
                       break;
                     case error.TIMEOUT:
                         toast.error("لطفا از برنامه خارج شوید و دوباره امتحان کنید.",{
-                            position: toast.POSITION.BOTTOM_LEFT
+                            position: toast.POSITION.TOP_RIGHT
                         });
                       break;
                     case error.UNKNOWN_ERROR:
                         toast.error("یک خطای ناشناس رخ داده !",{
-                            position: toast.POSITION.BOTTOM_LEFT
+                            position: toast.POSITION.TOP_RIGHT
                         });  
                       break;
                   }
             }
         }else{
             toast.error("دسترسی به موقعیت مکانی شما.لطفا لوکیشن دستگاه خود را روشن کنید",{
-                position: toast.POSITION.BOTTOM_LEFT
+                position: toast.POSITION.TOP_RIGHT
             });  
         }
     }
@@ -84,14 +84,14 @@ const Home=()=>{
             if(response){
                 if(response.data.message==="Authorization has been denied for this request."||response.status===401){
                     toast.error("کاربر یافت نشد",{
-                        position: toast.POSITION.BOTTOM_LEFT
+                        position: toast.POSITION.TOP_RIGHT
                     });  
                     localStorage.clear();
                     history.push("/");
                 }
             }else{
                 toast.error("خطا در برقراری ارتباط",{
-                    position: toast.POSITION.BOTTOM_LEFT
+                    position: toast.POSITION.TOP_RIGHT
                 });
             }
         }
@@ -125,14 +125,14 @@ const Home=()=>{
                 if(response){
                     if(response.data.message==="Authorization has been denied for this request."||response.status===401){
                         toast.error("کاربر یافت نشد",{
-                            position: toast.POSITION.BOTTOM_LEFT
+                            position: toast.POSITION.TOP_RIGHT
                         });  
                         localStorage.clear();
                         history.push("/");
                     }
                 }else{
                     toast.error("خطا در برقراری ارتباط",{
-                        position: toast.POSITION.BOTTOM_LEFT
+                        position: toast.POSITION.TOP_RIGHT
                     });
                 }
             }
@@ -169,14 +169,14 @@ const Home=()=>{
             if(response){
                 if(response.data.message==="Authorization has been denied for this request."||response.status===401){
                     toast.error("کاربر یافت نشد",{
-                        position: toast.POSITION.BOTTOM_LEFT
+                        position: toast.POSITION.TOP_RIGHT
                     });  
                     localStorage.clear();
                     history.push("/");
                 }
             }else{
                 toast.error("خطا در برقراری ارتباط",{
-                    position: toast.POSITION.BOTTOM_LEFT
+                    position: toast.POSITION.TOP_RIGHT
                 });
             }
         }
