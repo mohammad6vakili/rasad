@@ -38,7 +38,6 @@ const Home=()=>{
                 applyRequest();
             }
             function handler(error){
-                setErrorModal(true);
                 switch(error.code) {
                     case error.PERMISSION_DENIED:
                         setError("برای استفاده از نرم افزار نیاز به دسترسی موقعیت مکانی میباشد.لطفا خارج شوید و دوباره وارد شوید یا صفحه را رفرش کنید")
@@ -58,6 +57,9 @@ const Home=()=>{
                         break;
                   }
             }
+        }else{
+            setErrorModal(true);
+            setError("دسترسی به موقعیت مکانی شما.لطفا لوکیشن دستگاه خود را روشن کنید")
         }
     }
     

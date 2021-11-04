@@ -53,6 +53,9 @@
   width: 30%;
   margin-top: 30px;
 }
+.Toastify__toast-body{
+  font-size: 12px;
+}
 @media only screen and (max-width:800px){
   .pwa{
     display: flex;

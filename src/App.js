@@ -10,6 +10,8 @@ import { Switch , Route } from 'react-router';
 import { Modal , Button} from 'antd';
 import Colors from './Helper/Colors';
 import logoLoading from "./Assets/animations/ngragif.gif";
+import { toast } from 'react-toastify';
+import PWAPrompt from 'react-ios-pwa-prompt';
 
 const App=()=>{
     const history=useHistory();
@@ -21,6 +23,9 @@ const App=()=>{
     const [textErr , setTextErr]=useState(false);
 
     useEffect(()=>{
+        // toast.error("mioo",{
+        //     position: toast.POSITION.BOTTOM_LEFT
+        // });
         if(localStorage.getItem("token")){
             history.push("/home");
         }
@@ -60,6 +65,12 @@ const App=()=>{
                 <DesktopView/>
             </div>
             <div className="pwa">
+                <PWAPrompt 
+                    promptOnVisit={1} 
+                    timesToShow={3} 
+                    copyClosePrompt="Close" 
+                    permanentlyHideOnDismiss={false}
+                />
                 <Modal
                     title="" 
                     visible={errorModal} 
