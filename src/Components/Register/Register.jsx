@@ -18,7 +18,7 @@ const Register=()=>{
     const history=useHistory();
     const [start , setStart]=useState(null);
     const [end , setEnd]=useState(null);
-    const [target , setTarget]=useState(moment(date.toString()).locale('fa').format('YYYY/M/D'));
+    const [target , setTarget]=useState(moment(date.toString()).format('YYYY/M/D'));
     const [type , setType]=useState(0);
     const [note , setNote]=useState("");
     const [loading , setLoading]=useState(false);
@@ -61,8 +61,13 @@ const Register=()=>{
                     }
                 }
                 )
-                console.log(response.data);
+                response.data.messages.map((m)=>{
+                    toast.success(m.message,{
+                        position: toast.POSITION.TOP_RIGHT
+                    });
+                })
                 setLoading(false);
+                history.push("/home");
             }catch({err , response}){
                 if(response){
                     if(response.data.message==="Authorization has been denied for this request."||response.status===401){
@@ -93,13 +98,13 @@ const Register=()=>{
     return(
         <form style={loading===true ? {opacity:".3"}:{opacity:"1"}} onSubmit={submitRegister} className="register">
             <div>
-                <TimePicker 
+                <TimePicker
                     onChange={(time,timeString)=>setEnd(timeString)} 
                     defaultOpenValue={moment('00:00', 'HH:mm')}
                     placeholder={"زمان پایان"}
                     format={format}
                 />
-                <TimePicker 
+                <TimePicker
                     onChange={(time,timeString)=>setStart(timeString)} 
                     defaultOpenValue={moment('00:00', 'HH:mm')}
                     placeholder={"زمان شروع"}
@@ -110,7 +115,7 @@ const Register=()=>{
                 <ConfigProvider locale={fa_IR}  direction="rtl">
                     <DatePickerJalali
                         placeholder={"تاریخ"}
-                        onChange={(value)=>setTarget(value.$jy+"/"+(value.$jM+1)+"/"+value.$jD)}
+                        onChange={(value)=>setTarget(value.$y+"/"+(value.$M +1)+"/"+value.$D)}
                         style={{border:"none",width:"100%",border:"1px solid #d9d9d9",borderRadius:"0"}} 
                     />
                 </ConfigProvider>
@@ -118,6 +123,7 @@ const Register=()=>{
             <div>
                 <TextArea
                     onChange={(e)=>setNote(e.target.value)}
+                    value={note}
                     placeholder="توضیحات (بیش از سه حرف)"
                     style={{fontSize:"12px",textAlign:"right"}}
                 />
