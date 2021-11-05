@@ -9,6 +9,13 @@
 
 // To learn more about the benefits of this model and instructions on how to
 // opt-in, read https://bit.ly/CRA-PWA
+self.addEventListener('install', function(event) {
+    console.log("service worker has been installed");
+});
+self.addEventListener('activate', function(event) {
+  console.log("service worker has been activated");
+});
+self.addEventListener('fetch', function(event) {});
 
 const isLocalhost = Boolean(
     window.location.hostname === 'localhost' ||
