@@ -9,7 +9,6 @@ import { useHistory } from 'react-router';
 import { ConfigProvider, Space } from 'antd';
 import { DatePicker as DatePickerJalali } from "antd-jalali";
 import fa_IR from "antd/lib/locale/fa_IR";
-import loadingImage from "../../Assets/animations/watting.gif";
 const {TextArea}=Input;
 
 
@@ -114,7 +113,7 @@ const Register=()=>{
             <div>
                 <ConfigProvider locale={fa_IR}  direction="rtl">
                     <DatePickerJalali
-                        placeholder={"تاریخ"}
+                        placeholder={moment(date.toString()).locale('fa').format('YYYY/M/D')}
                         onChange={(value)=>setTarget(value.$y+"/"+(value.$M +1)+"/"+value.$D)}
                         style={{border:"none",width:"100%",border:"1px solid #d9d9d9",borderRadius:"0"}} 
                     />

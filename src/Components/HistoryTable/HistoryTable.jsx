@@ -12,6 +12,7 @@ import loadingImage from "../../Assets/animations/watting.gif";
 
 
 const HistoryTable=()=>{
+    const today = new Date();
     const history=useHistory();
     const [tableData , setTableData]=useState(null);
     const [empty , setEmpty]=useState(false);
@@ -50,6 +51,10 @@ const HistoryTable=()=>{
                     localStorage.clear();
                     history.push("/");
                     setLoading(false);
+                }else{
+                    toast.error("مشکلی ناشناخته پیش آمده !",{
+                        position: toast.POSITION.TOP_RIGHT
+                    });                    
                 }
             }else{
                 toast.error("خطا در برقراری ارتباط",{
@@ -69,7 +74,7 @@ const HistoryTable=()=>{
         <div className="history">
             <ConfigProvider locale={fa_IR}  direction="rtl">
                 <DatePickerJalali
-                    placeholder={"جستجو بر اساس تاریخ"}
+                    placeholder={moment(today.toString()).locale('fa').format('YYYY/M/D')}
                     onChange={(value)=>getUserHistory(value.$jy+"/"+(value.$jM+1)+"/"+value.$jD)}
                     style={{border:"none",width:"90%", borderBottom:"2px solid #001D53",borderRadius:"0"}} 
                 />

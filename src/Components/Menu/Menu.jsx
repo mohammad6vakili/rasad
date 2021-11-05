@@ -2,7 +2,7 @@ import React,{useState} from 'react';
 import "./Menu.css";
 import { Button , Modal } from 'antd';
 import Colors from "../../Helper/Colors";
-import { useHistory } from 'react-router';
+import { useHistory , useLocation } from 'react-router';
 import exitIcon from "../../Assets/images/sign-out.png";
 import listIcon from "../../Assets/images/clipboard.png";
 import requestIcon from "../../Assets/images/customer.png";
@@ -11,6 +11,7 @@ import submitImage from "../../Assets/images/submit.png";
 
 const Menu=()=>{
     const history=useHistory();
+    const location=useLocation();
     const [outModal , setOutModal]=useState(false);
     
     const logout=()=>{
@@ -50,28 +51,40 @@ const Menu=()=>{
                 آیا مطمئن هستید میخواهید خارج شوید؟
                 </div>
             </Modal>
-            <div onClick={()=>setOutModal(true)}>
+            <div 
+                style={outModal===true ? {borderTop:"3px solid #001D53"}: {borderTop:"unset"}}
+                onClick={()=>setOutModal(true)}
+            >
                 <img 
                     src={exitIcon} 
                     alt="exit" 
                 />
                 <span>خروج</span>
             </div>
-            <div onClick={()=>history.push("/register")}>
+            <div 
+                style={location.pathname ==="/register" && !outModal ? {borderTop:"3px solid #001D53"}: {borderTop:"unset"}} 
+                onClick={()=>history.push("/register")}
+            >
                 <img 
                     src={requestIcon} 
                     alt="request" 
                 />
-                <span>ثبت اصلاحیه</span>
+                <span>ثبت درخواست</span>
             </div>
-            <div onClick={()=>history.push("/history")}>
+            <div 
+                style={location.pathname ==="/history" && !outModal ? {borderTop:"3px solid #001D53"}: {borderTop:"unset"}}
+                onClick={()=>history.push("/history")}
+            >
                 <img 
                     src={listIcon} 
                     alt="list" 
                 />
                 <span>نمایش کارکرد</span>
             </div>
-            <div onClick={()=>history.push("/home")}>
+            <div 
+                style={location.pathname ==="/home" && !outModal ? {borderTop:"3px solid #001D53"}: {borderTop:"unset"}}
+                onClick={()=>history.push("/home")}
+            >
                 <img 
                     src={submitImage} 
                     alt="list" 

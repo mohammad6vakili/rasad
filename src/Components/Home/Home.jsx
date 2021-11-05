@@ -173,6 +173,13 @@ const Home=()=>{
                     });  
                     localStorage.clear();
                     history.push("/");
+                }else{
+                    response.data.messages.map((m)=>{
+                        toast.error(m.message,{
+                            position: toast.POSITION.TOP_RIGHT
+                        });
+                    })
+                    setLoading(false);
                 }
             }else{
                 toast.error("خطا در برقراری ارتباط",{
