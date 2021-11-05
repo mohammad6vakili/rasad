@@ -13,6 +13,7 @@ import logoLoading from "./Assets/animations/ngragif.gif";
 import { toast } from 'react-toastify';
 import PWAPrompt from 'react-ios-pwa-prompt';
 import Menu from "./Components/Menu/Menu";
+import { Offline , Online } from 'react-detect-offline';
 
 const App=()=>{
     const history=useHistory();
@@ -68,6 +69,7 @@ const App=()=>{
                 <DesktopView/>
             </div>
             <div className="pwa">
+                <Offline>شما آفلاین میباشید لطفا ارتباط خود را با اینترنت بررسی کنید</Offline>
                 <PWAPrompt 
                     promptOnVisit={1} 
                     timesToShow={3} 
