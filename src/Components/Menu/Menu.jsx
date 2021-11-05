@@ -6,6 +6,7 @@ import { useHistory } from 'react-router';
 import exitIcon from "../../Assets/images/sign-out.png";
 import listIcon from "../../Assets/images/clipboard.png";
 import requestIcon from "../../Assets/images/customer.png";
+import submitImage from "../../Assets/images/submit.png";
 
 
 const Menu=()=>{
@@ -56,19 +57,26 @@ const Menu=()=>{
                 />
                 <span>خروج</span>
             </div>
-            <div>
+            <div onClick={()=>history.push("/register")}>
                 <img 
                     src={requestIcon} 
                     alt="request" 
                 />
                 <span>ثبت اصلاحیه</span>
             </div>
-            <div>
+            <div onClick={()=>history.push("/history")}>
                 <img 
                     src={listIcon} 
                     alt="list" 
                 />
                 <span>نمایش کارکرد</span>
+            </div>
+            <div onClick={()=>history.push("/home")}>
+                <img 
+                    src={submitImage} 
+                    alt="list" 
+                />
+                <span>ثبت کارکرد</span>
             </div>
         </div>
     )

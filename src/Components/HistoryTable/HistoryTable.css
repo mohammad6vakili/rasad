@@ -1,0 +1,29 @@
+.history,.history-list{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+}
+.history-list{
+  padding-bottom:70px !important;
+}
+.history-list-item{
+    width: 95%;
+    border-radius: 6px 6px 0 0;
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.26);
+    height: 40px;
+    background-color: white;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #1a4dac;
+    display: flex;
+}
+.history-list-item>div{
+    width: 50%;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 10px;
+}

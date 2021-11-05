@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState , useCallback} from 'react';
 import "./App.css";
 import Header from './Components/Header/Header';
 import Login from './Components/Auth/Login';
@@ -13,7 +13,9 @@ import logoLoading from "./Assets/animations/ngragif.gif";
 import { toast } from 'react-toastify';
 import PWAPrompt from 'react-ios-pwa-prompt';
 import Menu from "./Components/Menu/Menu";
-import { Offline , Online } from 'react-detect-offline';
+import HistoryTable from "./Components/HistoryTable/HistoryTable";
+import Register from "./Components/Register/Register";
+import { Offline } from 'react-detect-offline';
 
 const App=()=>{
     const history=useHistory();
@@ -83,6 +85,8 @@ const App=()=>{
                     <Switch>
                         <Route path="/" exact component={Login}/>
                         <PrivateRoute path="/home" component={Home}/>
+                        <PrivateRoute path="/history" component={HistoryTable}/>
+                        <PrivateRoute path="/register" component={Register}/>
                     </Switch>
                 }
                 {textErr && <span style={{textAlign:"center",fontSize:"12px",marginTop:"7px",color:"red"}}>دسترسی به موقعیت مکانی ناموفق بود لطفا دوباره امتحان کنید</span>}

@@ -1,0 +1,21 @@
+.register{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+}
+.register>div{
+    width: 100%;
+    padding:10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.register>button{
+    width: 95%;
+    background-color: #001D53;
+    color: white;
+    border-radius: 3px;
+}

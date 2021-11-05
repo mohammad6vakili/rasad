@@ -15,7 +15,7 @@ const Header=()=>{
             <div className="header-body">
                 <img src={headerLogo} alt="rasad logo"/>
                 <span>سامانه هوشمند رصد</span>
-                <span>نسخه 1.1</span>
+                <span>نسخه 1.2</span>
                 <div className="vector-area">
                     <div>N</div>
                     <div>G</div>

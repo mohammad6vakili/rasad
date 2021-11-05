@@ -10,7 +10,7 @@ import thunk from "redux-thunk";
 import {createStore, combineReducers, applyMiddleware} from "redux";
 import {BrowserRouter} from "react-router-dom";
 import Reducer from "./Store/Reducer";
-import * as serviceWorker from "./serviceWorker";
+import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 
 
 const rootReducer=combineReducers({
@@ -28,4 +28,5 @@ ReactDOM.render(
   </BrowserRouter>,
   document.getElementById('root')
 );
-serviceWorker.register();
+
+serviceWorkerRegistration.register();
