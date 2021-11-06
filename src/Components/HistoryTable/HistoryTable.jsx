@@ -52,9 +52,14 @@ const HistoryTable=()=>{
                     history.push("/");
                     setLoading(false);
                 }else{
-                    toast.error("مشکلی ناشناخته پیش آمده !",{
-                        position: toast.POSITION.TOP_RIGHT
-                    });                    
+                    response.data.messages.map((m)=>{
+                        toast.error(m.message,{
+                            position: toast.POSITION.TOP_RIGHT
+                        }); 
+                    })
+                    setLoading(false);
+                    setEmpty(true);
+                    setTableData(null);  
                 }
             }else{
                 toast.error("خطا در برقراری ارتباط",{

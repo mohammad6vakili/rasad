@@ -11,6 +11,14 @@
     display: flex;
     justify-content: center;
 }
+.home-modal-content{
+    width: 100%;
+    padding:10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
 .home-status>div,.home-action-button-wrapper>div{
     width: 115px;
     height: 115px;

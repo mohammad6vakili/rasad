@@ -5,7 +5,7 @@ import { setUserMobile , setLoginCode} from '../../Store/Action';
 import axios from "axios";
 import Env from "../../Constant/Env.json";
 import { useHistory } from 'react-router';
-import { Input , Button, Modal} from 'antd';
+import { Input , Button, Modal, InputNumber} from 'antd';
 import Colors from "../../Helper/Colors";
 import PinInput from "react-pin-input";
 import countDownImage from "../../Assets/images/countdown.png";
@@ -55,10 +55,11 @@ const Login=()=>{
         }
     }
 
-    const sendCode=async(value)=>{
+    const sendCode=async(e)=>{
+        e.preventDefault();
         setLoading(true);
         try{
-            const response = await axios.post(Env.baseUrl + "/token",`client_id=clientId%3D%3DNGRA%3D%3Dcommunity%3D%3DApps%3D%3DF47586AE-9E51-4B34-A363-E9C82F485A00&client_secret=clientSecret%3D%3DNGRA%3D%3Dcommunity%3D%3DApps%3D%3DC70D59A9-57DF-40C4-A4FB-DED05157E582&grant_type=login_code&code=${value}&phonenumber=${mobile}`,
+            const response = await axios.post(Env.baseUrl + "/token",`client_id=clientId%3D%3DNGRA%3D%3Dcommunity%3D%3DApps%3D%3DF47586AE-9E51-4B34-A363-E9C82F485A00&client_secret=clientSecret%3D%3DNGRA%3D%3Dcommunity%3D%3DApps%3D%3DC70D59A9-57DF-40C4-A4FB-DED05157E582&grant_type=login_code&code=${loginCode}&phonenumber=${mobile}`,
             {
                 headers:{
                     app_token:"F868DF9E-263C-433D-B5DA-E9CC3C5D6C17",
@@ -123,7 +124,7 @@ const Login=()=>{
                         :
                         <div>
                             <img src={lockImage} alt="lock" />
-                            <span>ورود</span>
+                            <span>ارسال کد تایید</span>
                         </div>
                         }
                     </Button>
@@ -139,25 +140,40 @@ const Login=()=>{
                     }
                 </form>
             :
+            <>
                 <form 
                     className="send-code"
                     onSubmit={sendCode}
                 >
                     <span style={{fontWeight:700,fontSize:"24px",marginBottom:"10px"}}>تایید حساب کاربری</span>
-                    <span style={{fontSize:"15px"}}>لطفا کد فعال سازی</span>
+                    <span onClick={()=>console.log(loginCode)} style={{fontSize:"15px"}}>لطفا کد فعال سازی</span>
                     <span style={{fontSize:"15px"}}>را وارد کنید</span>
-                    <PinInput 
-                        length={6}
-                        focus
-                        type="numeric"
-                        inputMode="number"
-                        style={loading===true ? {opacity:".2",padding: '5px',marginTop:"15px"}: {padding: '5px',marginTop:"15px"}}  
-                        inputStyle={{border:"none",backgroundColor:"#001d5341",borderRadius:"6px",margin:"0 3px",width:"45px",height:"50px",color:"#001D53"}}
-                        inputFocusStyle={{backgroundColor:"#001D53",color:"white"}}
-                        onChange={(value) =>dispatch(setLoginCode(FormatHepler.toEnglishString(value)))}
-                        onComplete={(value)=>sendCode(value)}
-                        regexCriteria={/^[ A-Za-z0-9_@./#&+-]*$/}
+                    <Input
+                        type="tel"
+                        autoFocus
+                        style={loading===true ? {opacity:".2",marginTop:"15px"}: {marginTop:"15px"}}  
+                        onChange={(e) =>dispatch(setLoginCode((e.target.value)))}
+                        className="login-input"
                     />
+                    <Button 
+                        htmlType="submit"
+                        className={`login-button ${loading===true && "btn-loading"}`}
+                        disabled={loginCode==="null" || loginCode===""||loginCode.length<6}
+                        style={loginCode==="null" || loginCode==="" || loginCode.length<6 ? {backgroundColor:"gray",color:"white"} :{backgroundColor:Colors.royalBlue,color:"white"}}
+                    >
+                        {loading ===true ?
+                            <div>
+                                <img src={loadingImage} alt="loading" />
+                                <span>لطفا منتظر بمانید</span>
+                            </div>
+                            :
+                            <div>
+                                <img src={lockImage} alt="lock" />
+                                <span>ورود</span>
+                            </div>
+                        }
+                    </Button>
+                </form>
                     <div className="countdown">
                         <img src={countDownImage} alt="countdown" />
                         {isCount ?
@@ -176,7 +192,7 @@ const Login=()=>{
                         <span>زمان باقی مانده</span>
                         <span>جهت دریافت پیامک</span>
                     </div>
-                </form>
+                </>
             }
 
         </div>
