@@ -8,6 +8,7 @@ import * as moment from 'jalali-moment';
 import { ConfigProvider, Space } from 'antd';
 import { DatePicker as DatePickerJalali } from "antd-jalali";
 import fa_IR from "antd/lib/locale/fa_IR";
+import FormatHelper from "../../Helper/FormatHelper";
 import loadingImage from "../../Assets/animations/watting.gif";
 
 
@@ -88,7 +89,7 @@ const HistoryTable=()=>{
                 {loading===false ? 
                     tableData && tableData.map((data)=>(
                         <div className="history-list-item">
-                            <div>{data.clientDate}</div>
+                            <div>{FormatHelper.toPersianString(data.clientDate)}</div>
                             <div>
                                 {data.type===1 && <span>ورود</span>}
                                 {data.type===2 && <span>خروج</span>}
